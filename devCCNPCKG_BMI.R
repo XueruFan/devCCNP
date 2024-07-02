@@ -1,4 +1,4 @@
-# arrange devCCNPCKG Physical results into open-share csv file
+# arrange devCCNPCKG Physical results into open-share file
 # Xue-Ru Fan @BNU, 20 Feb 2023
 
 # clear environment
@@ -13,7 +13,7 @@ library(do)
 library(tidyr)
 
 # define environment variables
-filefolder <- "/Volumes/FANXUERU/重庆数据整理"
+filefolder <- "/Volumes/FANXUERU"
 setwd(filefolder)
 
 # load raw data file
