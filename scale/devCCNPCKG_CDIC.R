@@ -18,7 +18,7 @@ setwd(filefolder)
 #################### arrange raw data ##############################################################
 
 # load id and name
-name <- file.path("souce", "devCCNPCKG_id_code.csv")
+name <- file.path("support", "devCCNPCKG_id_code.csv")
 idname <- read.csv(name)
 
 # wave 1
@@ -66,6 +66,32 @@ cdic <- rbind(wave1, wave2, wave3)
 cdic[, 3:29] <- apply(cdic[, 3:29], 2, function(x) ifelse(x %in% c(1, 2, 3), x, NA))
 # 按照 Participant 列和 Session 列排序
 cdic <- cdic[order(cdic$Participant, cdic$Session), ]
+
+#####################
+# 校正编号使量表编号与扫描编号一致
+# 199
+cdic <- cdic[!(cdic$Participant == "0199" & cdic$Session == "01"), ]
+cdic[cdic$Participant == "0199" & cdic$Session == "02", "Session"] <- "01"
+cdic[cdic$Participant == "0199" & cdic$Session == "03", "Session"] <- "02"
+# 200
+cdic <- cdic[!(cdic$Participant == "0200" & cdic$Session == "01"), ]
+cdic[cdic$Participant == "0200" & cdic$Session == "02", "Session"] <- "01"
+# 202
+cdic[cdic$Participant == "0202" & cdic$Session == "03", "Session"] <- "02"
+# 203
+cdic <- cdic[!(cdic$Participant == "0203" & cdic$Session == "01"), ]
+cdic[cdic$Participant == "0203" & cdic$Session == "02", "Session"] <- "01"
+cdic[cdic$Participant == "0203" & cdic$Session == "03", "Session"] <- "02"
+# 204
+cdic <- cdic[!(cdic$Participant == "0204" & cdic$Session == "01"), ]
+cdic[cdic$Participant == "0204" & cdic$Session == "02", "Session"] <- "01"
+cdic[cdic$Participant == "0204" & cdic$Session == "03", "Session"] <- "02"
+# 205
+cdic[cdic$Participant == "0205" & cdic$Session == "02", "Session"] <- "01"
+# 206
+cdic[cdic$Participant == "0206" & cdic$Session == "03", "Session"] <- "01"
+# 207
+cdic[cdic$Participant == "0207" & cdic$Session == "03", "Session"] <- "01"
 
 # save a copy of raw data
 write.xlsx(cdic, file.path("raw", "devCCNPCKG_CDIC_raw.xlsx"), rowNames = F)
