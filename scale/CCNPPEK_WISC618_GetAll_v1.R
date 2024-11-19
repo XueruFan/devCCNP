@@ -2,6 +2,7 @@
 # 注意有些IQ分数异常的，这个代码会报错，手动挑出来给他们补充手录一下就行
 # 另外由于幼儿版、成人版和这个不一样，人数有比较少，就手动录入一下个别数据就行
 # 范雪如 2024年1月12日 @北师大205办公室
+# 注意这个代码适用升级前的系统哈
 
 rm(list=ls())
 
@@ -10,8 +11,8 @@ packages <- c("pdftools", "writexl", "tidyr", "reshape2", "openxlsx")
 # sapply(packages,install.packages,character.only=TRUE)
 sapply(packages, require, character.only = TRUE)
 
-ReportsFil <- "F:/IQ原始报告/待电子化"
-ResultFil <- "F:/IQ原始报告/待电子化"
+ReportsFil <- "//172.16.191.42/home/项目管理/CCNP/原始数据/IQ原始报告/Batch4/儿童青少年/old_system"
+ResultFil <- "//172.16.191.42/home/项目管理/CCNP/原始数据/IQ原始报告/Batch4/儿童青少年/old_system"
 
 setwd(ReportsFil)
 File_ID <- list.files()
@@ -139,4 +140,4 @@ for (pdf_file in File_ID) {
 CCNP_IQ_Result <- CCNP_IQ_Result[, c(ncol(CCNP_IQ_Result), 1:(ncol(CCNP_IQ_Result)-1))]
 
 setwd(ResultFil)
-write.xlsx(CCNP_IQ_Result, "CCNPPEK_WISC_All_新.xlsx", rowNames = F, colNames = T)
+write.xlsx(CCNP_IQ_Result, "CCNPPEK_WISC_Batch4.xlsx", rowNames = F, colNames = T)
