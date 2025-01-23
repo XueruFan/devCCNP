@@ -1,4 +1,4 @@
-# this code is used to arrange CCNPPEK Handness result into tsv file
+# this code is used to arrange CCNPPEK Handness result
 # copyright: Xue-Ru Fan @BNU, 5 Jan 2023
 
 # clear environment
@@ -12,49 +12,18 @@ library(stringr)
 library(do)
 
 # define environment variables
-filefolder <- "F:/CCNPdataArrange/Demographics"
+filefolder <- "//172.16.191.42/home/项目管理/CCNP/数据规范化预处理/问卷量表"
 setwd(filefolder)
 
-#################### arrange raw data ##############################################################
-
 # load raw data file
-setwd(paste0(filefolder, "/RawData/Source"))
-rawfile <-  "BasicInfo_CAS.xlsx"
+setwd(file.path(filefolder, "source"))
+rawfile <-  "CCNPPEK_Scale_A_Batch1234.xlsx"
 rawdata <- read.xlsx(rawfile, rowNames = F)
-rawdata <- rawdata[, -1]
-
-# pick out data from each wave
-raw_ses2 <- rawdata[grep("_w2", rawdata[, 1]),]
-raw_ses3 <- rawdata[grep("_w3", rawdata[, 1]),]
-raw_ses1 <- setdiff(setdiff(rawdata, raw_ses2), raw_ses3)
-
-# modify participant ID and add column "Session"
-# Session 1
-raw_ses1$FID <- Replace(raw_ses1$FID, "_w1", "")
-raw_ses1$FID <- str_pad(raw_ses1$FID, 4, side = "left", "0")
-ses <- c("Session", rep("01", nrow(raw_ses1)-1))
-raw_ses1 <- cbind(raw_ses1$FID, ses, raw_ses1[,2:ncol(raw_ses1)])
-colnames(raw_ses1)[1] <- "ID"
-# Session 2
-raw_ses2$FID <- Replace(raw_ses2$FID, "_w2", "")
-raw_ses2$FID <- str_pad(raw_ses2$FID, 4, side = "left", "0")
-ses <- rep("02", nrow(raw_ses2))
-raw_ses2 <- cbind(raw_ses2$FID, ses, raw_ses2[,2:ncol(raw_ses2)])
-colnames(raw_ses2)[1] <- "ID"
-# Session 3
-raw_ses3$FID <- Replace(raw_ses3$FID, "_w3", "")
-raw_ses3$FID <- str_pad(raw_ses3$FID, 4, side = "left", "0")
-ses <- rep("03", nrow(raw_ses3))
-raw_ses3 <- cbind(raw_ses3$FID, ses, raw_ses3[,2:ncol(raw_ses3)])
-colnames(raw_ses3)[1] <- "ID"
-
-# combine 3 sessions together
-raw <- rbind(raw_ses1, raw_ses2, raw_ses3)
-raw[1,1] <- "Participant"
+rawdata <- rawdata[, -1:-2]
 
 ######################## Arrange Handness result ###################################################
 
-hand <- raw[, c(1,2, 26:45)]
+hand <- rawdata[, c(1,2, 25:44)]
 
 # calculate score for both hands
 HandScore <- data.frame(matrix(ncol = 5, nrow = 0))
@@ -103,8 +72,8 @@ hand <- hand[-1,]
 hand_valid <- hand[complete.cases(hand[, 27]), ]
 
 # save a copy of valid handness raw result
-setwd(paste0(filefolder, "/RawData/"))
-write.xlsx(hand_valid[, c(1:22, 27)], "CCNPPEK_HandnessValid_raw.xlsx", rowNames = F)
+setwd(paste0(filefolder, "/raw/"))
+write.xlsx(hand_valid[, c(1:22, 27)], "CCNPPEK_HandnessValid_Batch1234_raw.xlsx", rowNames = F)
 
 # arrange invalid measures
 hand_invalid <- setdiff(hand, hand_valid)
@@ -164,5 +133,5 @@ for (i in 1:nrow(hand_invalid)) {
 hand_invalid[, 23:27] <- HandScore
 
 # save a copy of invalid handness raw result
-write.xlsx(hand_invalid[, c(1:22, 27)], "CCNPPEK_HandnessInValid_raw.xlsx", rowNames = F)
+write.xlsx(hand_invalid[, c(1:22, 27)], "CCNPPEK_HandnessInValid_Batch1234_raw.xlsx", rowNames = F)
   
