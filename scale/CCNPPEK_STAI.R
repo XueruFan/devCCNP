@@ -37,7 +37,7 @@ stai[1,3:42] <- c(seq(1,40))
 colnames(stai) <- stai[1,]
 stai <- stai[-1,]
 
-stai <- stai[complete.cases(stai),] # 去掉缺这个数据的被试信息
+# stai <- stai[complete.cases(stai),] # 去掉缺这个数据的被试信息
 
 # 反向计分题号
 index <- c(1,2,5,8,10,11,15,16,19,20,21,23,24,26,27,30,33,34,36,39)
@@ -64,6 +64,8 @@ for (i in 1:nrow(stai)) {
 
 stai <- cbind(stai, Score)
 colnames(stai)[43:45] <- c("State_Anxiety", "Trait_Anxiety", "Total_Score")
+
+stai <- stai %>% filter(!if_all(43:45, is.na))
 
 # save finial result of this scale
 stai <- stai[, c(1,2,43:45)]
