@@ -1,9 +1,9 @@
 clear, clc
-datafolder = 'C:/系统文件/工作管理/项目管理/彩巢计划/数据相关/问卷录入/自处理数据/任务转换原始文件/'; 
+datafolder = '//172.16.191.42/home/项目管理/CCNP/数据电子化/自处理数据/任务转换原始文件'; 
 addpath(genpath(datafolder))
 cd(datafolder)
 
-[txt,raw] = xlsread('CCNPPEK_TaskSwitch_Arr.xlsx');
+[txt,raw] = xlsread('CCNPPEK_TaskSwitch_Arr_Batch1234.xlsx');
 
 data = raw(2:end,:);
 dataid = str2num(char(data(:, 1))); % 被试编号

@@ -43,7 +43,6 @@ cdic <- cdic[-1,]
 cdic[cdic == "1"] <- 0
 cdic[cdic == "2"] <- 1
 cdic[cdic == "3"] <- 2
-cdic <- cdic[complete.cases(cdic),] # 去掉缺这个数据的被试信息
 
 # 反向计分题号
 index <- c(2,5,7,8,10,11,13,15,16,18,21,24,25)
@@ -71,6 +70,8 @@ for (i in 1:nrow(cdic)) {
 cdic <- cbind(cdic, Score)
 colnames(cdic)[30:35] <- c("Anhedonia", "Negative_Mood", "Negative_Self-Esteem",
                            "Ineffectiveness", "Interpersonal_Problem", "Total_Score")
+
+cdic <- cdic %>% filter(!if_all(30:35, is.na))
 
 # save finial result of this scale
 cdic <- cdic[, c(1,2,30:35)]

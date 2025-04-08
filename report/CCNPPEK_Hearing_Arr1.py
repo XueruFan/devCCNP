@@ -22,6 +22,6 @@ def rename_folders(directory):
             print(f"Renamed '{old_path}' to '{new_path}'")
 
 # 指定需要处理的目录路径
-directory = "C:/系统文件/工作管理/项目管理/彩巢计划/数据相关/问卷录入/自处理数据/听觉原始文件/CCNP2022"
+directory = "//172.16.191.42/home/项目管理/CCNP/数据电子化/自处理数据/听觉原始文件/Batch4/原始文件"
 rename_folders(directory)
 
