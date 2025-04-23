@@ -71,7 +71,7 @@ def process_file(filename, ses, results):
 
 results = []
 
-for i, file in enumerate(['wave1.txt', 'wave2.txt', 'wave3.txt'], start=1):
+for i, file in enumerate(['wave1.txt', 'wave2.txt', 'wave3.txt', 'wave4.txt'], start=1):
     ses = str(i)
     process_file(file, ses, results)
 
